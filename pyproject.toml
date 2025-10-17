@@ -16,4 +16,5 @@ dependencies = [
     "psycopg2-binary>=2.9.11",
     "python-decouple>=3.8",
     "rest-framework-simplejwt>=0.0.2",
+    "whitenoise>=6.11.0",
 ]
