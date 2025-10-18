@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import get_user_model
+from django.contrib.auth.hashers import make_password, check_password
 
 User = get_user_model()
 
@@ -31,16 +32,33 @@ class Doors(models.Model):
     description = models.TextField(null=True, blank=True)
     locked = models.BooleanField(default=False)
     pin = models.Charfield(max_length=4, null=True, blank=True, validators=[pin_validator])
+    has_pin = models.BooleanField(default=False)
 
     def __str__(self):
         return self.door_name
     
-    def has_pin(self):
-        return self.pin is not None
-    
-    def unlock(self):
-        self.locked = False
+    def set_pin(self, raw_pin):
+        self.pin = make_password(raw_pin)
+        self.has_pin = True
         self.save()
+        
+    def _check_pin(self, pin):
+        return check_password(pin, self.pin)
+    
+    
+    def unlock(self, pin):
+        if self.has_pin():
+            if self._check_pin(pin):
+                self.locked = False
+                self.save()
+                return True
+            else:
+                return False
+        elif not self.has_pin():
+            self.locked = False
+            self.save()
+            return True
+            
         
     def lock(self):
         self.locked = True
