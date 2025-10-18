@@ -1,8 +1,10 @@
 from django.db import models
+from django.core.validators import RegexValidator
 from django.contrib.auth.models import get_user_model
 
 User = get_user_model()
 
+pin_validator = RegexValidator(regex=r'^\d{4}$', message='Pin must be a 4-digit number.')
 # Create your models here.
 class Building(models.Model):
     name = models.CharField(max_length=255)
@@ -28,9 +30,13 @@ class Doors(models.Model):
     door_name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     locked = models.BooleanField(default=False)
+    pin = models.Charfield(max_length=4, null=True, blank=True, validators=[pin_validator])
 
     def __str__(self):
         return self.door_name
+    
+    def has_pin(self):
+        return self.pin is not None
     
     def unlock(self):
         self.locked = False
@@ -39,3 +45,4 @@ class Doors(models.Model):
     def lock(self):
         self.locked = True
         self.save()
+        
