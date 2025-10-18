@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     #installed apps
     'user.apps.UserConfig',
     'control_logic.apps.ControlLogicConfig',
+    'buildings.apps.BuildingsConfig',
     
     #3rd party
     'rest_framework',
