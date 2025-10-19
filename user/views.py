@@ -42,7 +42,7 @@ class UserRegistrationView(generics.CreateAPIView):
             'email_body': email_body,
         }
         
-        Util.send_mail(email_data)
+        Util.send_email(email_data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 class UserVerifyEmail(APIView):
