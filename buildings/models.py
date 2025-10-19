@@ -31,7 +31,7 @@ class Doors(models.Model):
     door_name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     locked = models.BooleanField(default=False)
-    pin = models.Charfield(max_length=4, null=True, blank=True, validators=[pin_validator])
+    pin = models.CharField(max_length=4, null=True, blank=True, validators=[pin_validator])
     has_pin = models.BooleanField(default=False)
 
     def __str__(self):
