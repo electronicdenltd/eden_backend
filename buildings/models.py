@@ -6,11 +6,12 @@ from django.contrib.auth.hashers import make_password, check_password
 User = get_user_model()
 
 pin_validator = RegexValidator(regex=r'^\d{4}$', message='Pin must be a 4-digit number.')
+
 # Create your models here.
 class Building(models.Model):
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255, null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField(null=True, blank=True)
     locked = models.BooleanField(default=False)
 
@@ -26,12 +27,12 @@ class Building(models.Model):
         self.save()
     
     
-class Doors(models.Model):
+class BuildingDoors(models.Model):
     building = models.ForeignKey(Building, on_delete=models.CASCADE)
     door_name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     locked = models.BooleanField(default=False)
-    pin = models.CharField(max_length=4, null=True, blank=True, validators=[pin_validator])
+    pin = models.CharField(max_length=128, null=True, blank=True)
     has_pin = models.BooleanField(default=False)
 
     def __str__(self):
@@ -47,14 +48,14 @@ class Doors(models.Model):
     
     
     def unlock(self, pin):
-        if self.has_pin():
+        if self.has_pin:
             if self._check_pin(pin):
                 self.locked = False
                 self.save()
                 return True
             else:
                 return False
-        elif not self.has_pin():
+        elif not self.has_pin:
             self.locked = False
             self.save()
             return True
