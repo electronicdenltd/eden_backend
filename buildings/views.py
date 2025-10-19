@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework.exceptions import PermissionDenied
-from rest_framework import generic, status
+from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
@@ -8,7 +8,7 @@ from eden_backend.permissions import IsOwner
 from .models import Building, BuildingDoors
 from .serializers import BuildingSerializer, BuildingDoorsSerializer, BuildingDoorUnlockSerializer
 
-class BuildingAddView(generic.CreateAPIView):
+class BuildingAddView(generics.CreateAPIView):
     serializer_class = BuildingSerializer
     queryset = Building.objects.all()
     
@@ -17,7 +17,7 @@ class BuildingAddView(generic.CreateAPIView):
         building.owner = self.request.user
         building.save()
 
-class BuildingListView(generic.ListAPIView):
+class BuildingListView(generics.ListAPIView):
     serializer_class = BuildingSerializer
     queryset = Building.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
@@ -25,7 +25,7 @@ class BuildingListView(generic.ListAPIView):
     def get_queryset(self):
         return Building.objects.filter(owner=self.request.user)
 
-class BuildingRetrieveUpdateView(generic.RetrieveUpdateAPIView):
+class BuildingRetrieveUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = BuildingSerializer
     queryset = Building.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
@@ -37,14 +37,14 @@ class BuildingRetrieveUpdateView(generic.RetrieveUpdateAPIView):
         return building
     
 
-class BuildingDeleteView(generic.DestroyAPIView):
+class BuildingDeleteView(generics.DestroyAPIView):
     serializer_class = BuildingSerializer
     queryset = Building.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
     lookup_field = "id"
     
 
-class BuildingDoorsAddView(generic.CreateAPIView):
+class BuildingDoorsAddView(generics.CreateAPIView):
     serializer_class = BuildingDoorsSerializer
     queryset = BuildingDoors.objects.all()
     
@@ -54,7 +54,7 @@ class BuildingDoorsAddView(generic.CreateAPIView):
             raise Exception("You are not the owner of this building")
         serializer.save()
         
-class BuildingDoorsListView(generic.ListAPIView):
+class BuildingDoorsListView(generics.ListAPIView):
     serializer_class = BuildingDoorsSerializer
     queryset = BuildingDoors.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
@@ -62,7 +62,7 @@ class BuildingDoorsListView(generic.ListAPIView):
     def get_queryset(self):
         return BuildingDoors.objects.filter(building = self.kwargs['building'])
     
-class BuildingDoorsRetrieveUpdateView(generic.RetrieveUpdateAPIView):
+class BuildingDoorsRetrieveUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = BuildingDoorsSerializer
     queryset = BuildingDoors.objects.all()
     lookup_field = "id"
@@ -72,13 +72,13 @@ class BuildingDoorsRetrieveUpdateView(generic.RetrieveUpdateAPIView):
         self.check_object_permissions(self.request, door)
         return door
     
-class BuildingDoorsDeleteView(generic.DestroyAPIView):
+class BuildingDoorsDeleteView(generics.DestroyAPIView):
     serializer_class = BuildingDoorsSerializer
     queryset = BuildingDoors.objects.all()
     lookup_field = "id"
     
     
-class BuildingDoorActionView(generic.GenericAPIView):
+class BuildingDoorActionView(generics.GenericAPIView):
     serializer_class = BuildingDoorUnlockSerializer
     permission_classes = [IsAuthenticated]
     

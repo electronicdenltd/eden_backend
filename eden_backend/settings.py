@@ -14,6 +14,7 @@ from pathlib import Path
 from decouple import config
 import dj_database_url
 import os
+from rest_framework.permissions import AllowAny
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -153,9 +154,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_PERMISSION_CLASSES': {
+    'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    }
+    ],
 }
 
 AUTH_USER_MODEL = 'user.User'
@@ -168,6 +169,8 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = config('EMAIL_PORT')
 
 SPECTACULAR_SETTINGS ={
+    'SERVE_PERMISSIONS': ["rest_framework.permissions.AllowAny"],
+    'SERVE_PUBLIC': True,
     'TITLE': 'EDen API',
     'DESCRIPTION': 'API for EDen',
     'VERSION': '1.0.0',
