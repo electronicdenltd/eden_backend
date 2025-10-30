@@ -2,7 +2,9 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
+
+import requests
 
 from eden_backend.permissions import IsOwner
 from .models import Building, BuildingDoors
@@ -90,23 +92,33 @@ class BuildingDoorActionView(generics.GenericAPIView):
         pin = serializer.validated_data['pin']
         action = serializer.validated_data['action']
         
-        door = get_object_or_404(BuildingDoors, id=door_id)
-        if door.building.owner != request.user:
-            raise PermissionDenied("You are not the owner of this door")
+        # door = get_object_or_404(BuildingDoors, id=door_id)
+        # if door.building.owner != request.user:
+        #     raise PermissionDenied("You are not the owner of this door")
         
-        if action not in ['lock', 'unlock']:
-            raise PermissionDenied("Invalid action")
+        # if action not in ['lock', 'unlock']:
+        #     raise PermissionDenied("Invalid action")
         
-        if action == 'unlock':
-            success = door.unlock(pin)
-        else:
-            door.lock()
-            success = True
+        # if action == 'unlock':
+        #     success = door.unlock(pin)
+        # else:
+        #     door.lock()
+        #     success = True
         
-        if not success:
-            return Response({"error": "Invalid pin"}, status=status.HTTP_403_FORBIDDEN)
+        # if not success:
+        #     return Response({"error": "Invalid pin"}, status=status.HTTP_403_FORBIDDEN)
         
 ### Implement communication with esp32
+        #requests.post(f"http://192.168.4.1/{action}", json={"action": action})
+        # try:
+        #     requests.post(ESP32_API_URL, json={"door_id": door.id, "action": action})
+        # except Exception:
+        #     return Response({"warning": "Door state updated but ESP not reached."})
+
+        # return Response(
+        #     {"status": f"Door {action}ed successfully"},
+        #     status=status.HTTP_200_OK
+        # )
 
         return Response({"success": "Door action successful."}, status=status.HTTP_200_OK)
         
