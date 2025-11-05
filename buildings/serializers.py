@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Building, BuildingDoors
+from .models import Building, BuildingDoors, BuildingDoorAction
 
 class BuildingSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,3 +29,10 @@ class BuildingDoorUnlockSerializer(serializers.Serializer):
     
     class Meta:
         fields = ['pin', 'door_id', 'action']
+
+
+class BuildingDoorActionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BuildingDoorAction
+        fields = ['id', 'house', 'door', 'user', 'action', 'timestamp']       
+        

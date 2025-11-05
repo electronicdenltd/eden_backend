@@ -7,8 +7,8 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 #import requests
 
 from eden_backend.permissions import IsOwner
-from .models import Building, BuildingDoors
-from .serializers import BuildingSerializer, BuildingDoorsSerializer, BuildingDoorUnlockSerializer
+from .models import Building, BuildingDoors, BuildingDoorAction
+from .serializers import BuildingSerializer, BuildingDoorsSerializer, BuildingDoorUnlockSerializer, BuildingDoorActionSerializer
 
 class BuildingAddView(generics.CreateAPIView):
     serializer_class = BuildingSerializer
@@ -123,3 +123,10 @@ class BuildingDoorActionView(generics.GenericAPIView):
         return Response({"success": "Door action successful."}, status=status.HTTP_200_OK)
         
         
+class BuildingDoorActionListView(generics.ListAPIView):
+    serializer_class = BuildingDoorActionSerializer
+    queryset = BuildingDoorAction.objects.all()
+    permission_classes = [IsAuthenticated, IsOwner]
+    
+    def get_queryset(self):
+        return BuildingDoorAction.objects.filter(building = self.kwargs['building'])

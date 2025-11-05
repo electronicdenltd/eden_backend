@@ -70,11 +70,13 @@ class BuildingDoorAction(models.Model):
         LOCK = 'lock'
         UNLOCK = 'unlock'
     
+    house = models.ForeignKey(Building, on_delete=models.CASCADE)
     door = models.ForeignKey(BuildingDoors, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     action = models.CharField(max_length=10, choices=ActionChoices.choices)
     timestamp = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f"{self.user.email} {self.action}ed {self.door.door_name} at {self.timestamp}"
+        return f"{self.user.first_name} {self.user.last_name} {self.action}ed {self.door.door_name} at {self.timestamp}"
+    
     
