@@ -64,11 +64,11 @@ class UserVerifyEmail(APIView):
             return Response({'error': 'Activation link is invalid!'}, status=status.HTTP_400_BAD_REQUEST)
         
     
-class UserProfileView(APIView):
+class UserProfileView(generics.RetrieveAPIView):
+    permission_class=[IsAuthenticated]
+    serializer_class = UserSerializer
     def get(self, request):
-        user = request.user
-        serializer = UserSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return self.request.user
     
 class UserUpdateView(generics.UpdateAPIView):
     queryset = User.objects.all()
