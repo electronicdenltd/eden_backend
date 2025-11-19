@@ -109,7 +109,7 @@ class UserRequestPasswordResetEmailView(generics.GenericAPIView):
             uidb64 = urlsafe_base64_encode(force_bytes(user.id))
             
             current_site = get_current_site(request).domain
-            relative_link = reverse('verify-password-reset-token', kwargs={'uidb64': uidb64, 'token': token})
+            relative_link = reverse('verify-password-reset-email', kwargs={'uidb64': uidb64, 'token': token})
             abslink = f"http://{current_site}{relative_link}"
             
             email_body = f"Hello, \nUse the link below to reset your rentiq password: \n{abslink} \nIgnore if you haven't requested a password reset."
