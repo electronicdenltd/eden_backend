@@ -120,7 +120,7 @@ class UserRequestPasswordResetEmailView(generics.GenericAPIView):
                 'email_body': email_body,
             }
             
-            Util.send_mail(email_data)
+            Util.send_email(email_data)
             
         return Response({'success': 'If an account with the email exists, you will receive an email.'}, status=status.HTTP_200_OK)
     
