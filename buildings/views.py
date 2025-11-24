@@ -49,6 +49,7 @@ class BuildingDeleteView(generics.DestroyAPIView):
 class BuildingDoorsRegisterView(generics.CreateAPIView):
     serializer_class = BuildingDoorsSerializer
     queryset = BuildingDoors.objects.all()
+    permission_classes = [AllowAny]
     
     def perform_create(self, serializer):
         if ~self.request.user.is_superuser:
