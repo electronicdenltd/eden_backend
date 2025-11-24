@@ -8,12 +8,13 @@ class BuildingSerializer(serializers.ModelSerializer):
         fields = ['id', 'owner', 'name', 'address', 'description', 'locked']
         
 class BuildingDoorsSerializer(serializers.ModelSerializer):
-    pin = serializers.CharField(write_only=True, required = False)
-    has_pin = serializers.ReadOnlyField()
+    pin = serializers.CharField(write_only=True, required = True)
+    #has_pin = serializers.ReadOnlyField() #was initially added but removed as
+    #it was a requirement to set pin
     locked = serializers.ReadOnlyField()
     class Meta:
         model = BuildingDoors
-        fields = ['id', 'building', 'door_name', 'description', 'locked', 'pin', 'has_pin']
+        fields = ['id', 'building', 'door_name', 'description', 'locked', 'pin']
         
     def create(self, validated_data):
         pin = validated_data.pop('pin', None)

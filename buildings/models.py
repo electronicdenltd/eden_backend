@@ -33,7 +33,7 @@ class BuildingDoors(models.Model):
     description = models.TextField(null=True, blank=True)
     locked = models.BooleanField(default=False)
     pin = models.CharField(max_length=128, null=True, blank=True)
-    has_pin = models.BooleanField(default=False)
+    has_pin = models.BooleanField(default=True)
 
     def __str__(self):
         return self.door_name
