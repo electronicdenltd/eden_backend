@@ -46,15 +46,20 @@ class BuildingDeleteView(generics.DestroyAPIView):
     lookup_field = "id"
     
 
-class BuildingDoorsAddView(generics.CreateAPIView):
+class BuildingDoorsRegisterView(generics.CreateAPIView):
     serializer_class = BuildingDoorsSerializer
     queryset = BuildingDoors.objects.all()
     
     def perform_create(self, serializer):
-        building = serializer.validated_data['building']
-        if building.owner != self.request.user:
-            raise Exception("You are not the owner of this building")
-        serializer.save()
+        if ~self.request.user.is_superuser:
+            raise Exception("You are not permitted to register doors")
+        serializer.save(building=None,is_assigned=False)
+    
+    # def perform_create(self, serializer):
+    #     building = serializer.validated_data['building']
+    #     if building.owner != self.request.user:
+    #         raise Exception("You are not the owner of this building")
+    #     serializer.save()
         
 class BuildingDoorsListView(generics.ListAPIView):
     serializer_class = BuildingDoorsSerializer
