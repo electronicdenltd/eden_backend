@@ -28,11 +28,12 @@ class Building(models.Model):
     
     
 class BuildingDoors(models.Model):
+    uid = models.CharField(max_length=255)
     building = models.ForeignKey(Building, on_delete=models.CASCADE, null=True)
-    door_name = models.CharField(max_length=255)
+    door_name = models.CharField(max_length=255, default='Door')
     description = models.TextField(null=True, blank=True)
     locked = models.BooleanField(default=False)
-    pin = models.CharField(max_length=128, null=True, blank=True)
+    pin = models.CharField(max_length=128)
     has_pin = models.BooleanField(default=True)
     is_assigned = models.BooleanField(default=False)
 
