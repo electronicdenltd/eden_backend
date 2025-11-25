@@ -14,7 +14,7 @@ class BuildingDoorsSerializer(serializers.ModelSerializer):
     locked = serializers.ReadOnlyField()
     class Meta:
         model = BuildingDoors
-        fields = ['id', 'building', 'door_name', 'description', 'locked', 'pin']
+        fields = ['id','uid' 'building', 'door_name', 'description', 'locked', 'pin']
         
     def create(self, validated_data):
         pin = validated_data.pop('pin', None)
