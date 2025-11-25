@@ -163,10 +163,11 @@ AUTH_USER_MODEL = 'user.User'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS =True
+EMAIL_TIMEOUT=30
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_PORT = config('EMAIL_PORT',cast=int)
 
 SPECTACULAR_SETTINGS ={
     'SERVE_PERMISSIONS': ["rest_framework.permissions.AllowAny"],
@@ -181,3 +182,19 @@ SPECTACULAR_SETTINGS ={
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {"class": "logging.StreamHandler"},
+    },
+    "loggers": {
+        "django": {"handlers": ["console"], "level": "INFO"},
+        "django.request": {"handlers": ["console"], "level": "ERROR"},
+        "django.core.mail": {"handlers": ["console"], "level": "DEBUG"},
+        "smtplib": {"handlers": ["console"], "level": "DEBUG"},
+    },
+}

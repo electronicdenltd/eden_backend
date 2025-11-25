@@ -52,8 +52,8 @@ class BuildingDoorsRegisterView(generics.CreateAPIView):
     permission_classes = [AllowAny]
     
     def perform_create(self, serializer):
-        if ~self.request.user.is_superuser:
-            raise Exception("You are not permitted to register doors")
+        #if ~self.request.user.is_superuser:
+        #    raise Exception("You are not permitted to register doors")
         serializer.save(building=None,is_assigned=False)
     
     # def perform_create(self, serializer):
