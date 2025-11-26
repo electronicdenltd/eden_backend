@@ -162,7 +162,8 @@ REST_FRAMEWORK = {
 AUTH_USER_MODEL = 'user.User'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS =True
+EMAIL_USE_TLS =False
+EMAIL_USE_SSL = True
 EMAIL_TIMEOUT=30
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')

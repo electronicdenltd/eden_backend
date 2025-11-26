@@ -28,7 +28,7 @@ class Building(models.Model):
     
     
 class BuildingDoors(models.Model):
-    uid = models.CharField(max_length=255)
+    uid = models.CharField(max_length=255, unique=True)
     building = models.ForeignKey(Building, on_delete=models.CASCADE, null=True)
     door_name = models.CharField(max_length=255, default='Door')
     description = models.TextField(null=True, blank=True)
