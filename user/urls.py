@@ -18,10 +18,10 @@ urlpatterns = [
     path('me/change-password/', UserChangePasswordView.as_view(), name='change-password'),
     
     path('register/', UserRegistrationView.as_view(), name='register'),
-    path('email-verify/<int:uidb64>/<int:token>/', UserVerifyEmail.as_view(), name='email-verify'),
+    path('email-verify/<str:uidb64>/<str:token>/', UserVerifyEmail.as_view(), name='email-verify'),
     
     path('request-password-reset-email/', csrf_exempt(UserRequestPasswordResetEmailView.as_view()), name='request-password-reset-email'),
-    path('password-reset-email-verify/<int:uidb64>/<int:token>/', UserVerifyPasswordResetEmailView.as_view(), name='verify-password-reset-email' ),
-    path('password-reset/<int:uidb64>/<int:token>/', UserPasswordResetView.as_view(), name='password-reset'),
+    path('password-reset-email-verify/<str:uidb64>/<str:token>/', UserVerifyPasswordResetEmailView.as_view(), name='verify-password-reset-email' ),
+    path('password-reset/<str:uidb64>/<str:token>/', UserPasswordResetView.as_view(), name='password-reset'),
 ]
  
