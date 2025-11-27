@@ -45,13 +45,13 @@ class BuildingDoors(models.Model):
         self.has_pin = True
         self.save()
         
-    def _check_pin(self, pin):
+    def check_pin(self, pin):
         return check_password(pin, self.pin)
     
     
     def unlock(self, pin):
         if self.has_pin:
-            if self._check_pin(pin):
+            if self.check_pin(pin):
                 self.locked = False
                 self.save()
                 return True

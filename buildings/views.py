@@ -62,6 +62,23 @@ class BuildingDoorsRegisterView(generics.CreateAPIView):
     #         raise Exception("You are not the owner of this building")
     #     serializer.save()
         
+        
+class BuildingDoorsAssignView(generics.UpdateAPIView):
+    serializer_class = BuildingDoorsSerializer
+    queryset = BuildingDoors.objects.all()
+    
+    def get_object(self):
+        door = BuildingDoors.objects.get(id=self.request.data["uid"])
+        if door.check_pin(self.request.data['pin']):
+            door.building = self.request.data["building"]
+            door.door_name = self.request.data["door_name"]
+            door.description = self.request.data["description"]
+            door.is_assigned = True
+            door.save()
+            return door
+        else:
+            raise Exception("Invalid pin or uid")
+    
 class BuildingDoorsListView(generics.ListAPIView):
     serializer_class = BuildingDoorsSerializer
     queryset = BuildingDoors.objects.all()
