@@ -90,10 +90,10 @@ class BuildingDoorsListView(generics.ListAPIView):
 class BuildingDoorsRetrieveUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = BuildingDoorsSerializer
     queryset = BuildingDoors.objects.all()
-    lookup_field = "id"
+    
     
     def get_object(self):
-        door = BuildingDoors.objects.get(id=self.kwargs["id"])
+        door = BuildingDoors.objects.get(id=self.kwargs["uid"])
         self.check_object_permissions(self.request, door)
         return door
     
