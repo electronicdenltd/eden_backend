@@ -47,7 +47,7 @@ class BuildingDeleteView(generics.DestroyAPIView):
     lookup_field = "id"
     
 class BuildingDoorVerifyView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def post(self, request, uid):
         #data = request.data
         response = BuildingDoors.objects.filter(uid=uid).exists()
