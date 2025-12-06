@@ -125,7 +125,7 @@ class UserRequestPasswordResetEmailView(generics.GenericAPIView):
         return Response({'success': 'If an account with the email exists, you will receive an email.'}, status=status.HTTP_200_OK)
     
     
-class UserVerifyPasswordResetEmailView(generics.GenericAPIView):
+class UserVerifyPasswordResetEmailView(APIView):
     permission_classes = [AllowAny]
     
     def get(self,request, uidb64, token):

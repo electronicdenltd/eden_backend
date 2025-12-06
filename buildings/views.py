@@ -3,6 +3,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.views import APIView
 
 #import requests
 
@@ -44,6 +45,19 @@ class BuildingDeleteView(generics.DestroyAPIView):
     queryset = Building.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
     lookup_field = "id"
+    
+class BuildingDoorVerifyView(APIView):
+    permission_classes = [AllowAny]
+    def post(self, request, uid):
+        #data = request.data
+        response = BuildingDoors.objects.filter(uid=uid).exists()
+        if response:
+            return Response({"success": True, "message": "Door exists"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"success": False, "message": "Door does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+            
+        #return Response({"success": True}, status=status.HTTP_200_OK)
+        #return Response({"success": False}, status=status.HTTP_400_BAD_REQUEST)
     
 
 class BuildingDoorsRegisterView(generics.CreateAPIView):

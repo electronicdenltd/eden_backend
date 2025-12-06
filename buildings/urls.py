@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import BuildingAddView, BuildingListView, BuildingRetrieveUpdateView, BuildingDeleteView, BuildingDoorsListView, BuildingDoorsRetrieveUpdateView, BuildingDoorsDeleteView, BuildingDoorsRegisterView, BuildingDoorActionView, BuildingDoorActionListView, BuildingDoorsAssignView
+from .views import BuildingAddView, BuildingListView, BuildingRetrieveUpdateView, BuildingDeleteView, BuildingDoorsListView, BuildingDoorsRetrieveUpdateView, BuildingDoorsDeleteView, BuildingDoorsRegisterView, BuildingDoorActionView, BuildingDoorActionListView, BuildingDoorsAssignView, BuildingDoorVerifyView
 
 urlpatterns = [
     path('door-action/', BuildingDoorActionView.as_view(), name='door-action'),
@@ -15,6 +15,7 @@ urlpatterns = [
     path('register-door/', BuildingDoorsRegisterView.as_view(), name='add-door'),
     path('delete-door/<int:id>/', BuildingDoorsDeleteView.as_view(), name='delete-door'),
     path('assign-door/<int:id>/', BuildingDoorsAssignView.as_view(), name='assign-door'),
+    path('veriify-door/<str:uid>/', BuildingDoorVerifyView.as_view(), name='verify-door'),
     
     path('list-actions/<int:building>/',BuildingDoorActionListView.as_view(), name='list-actions')
 ]

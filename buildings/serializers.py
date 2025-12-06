@@ -23,6 +23,7 @@ class BuildingDoorsSerializer(serializers.ModelSerializer):
             door.set_pin(pin)
         return door
     
+
 class BuildingDoorUnlockSerializer(serializers.Serializer):
     pin = serializers.CharField()
     door_id = serializers.IntegerField()
