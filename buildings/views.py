@@ -50,7 +50,7 @@ class BuildingDoorVerifyView(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request, uid):
         #data = request.data
-        lock = BuildingDoors.objects.filter(uid=uid)
+        lock = BuildingDoors.objects.get(uid=uid)
         response = lock.exists()
         if response:
             if not lock.is_assigned:
