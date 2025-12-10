@@ -53,9 +53,11 @@ class BuildingDoorVerifyView(APIView):
         lock = BuildingDoors.objects.filter(uid=uid)
         response = lock.exists()
         if response:
-            return Response({"success": True, "door": lock}, status=status.HTTP_200_OK)
-        else:
-            return Response({"success": False, "message": "Door not found"}, status=status.HTTP_400_BAD_REQUEST)
+            if not lock.is_assigned:
+                return Response({"success": True})
+            #return Response({"success": True, "door": lock}, status=status.HTTP_200_OK)
+            
+        return Response({"success": False, "message": "Door is assigned or doesn't exist."}, status=status.HTTP_400_BAD_REQUEST)     
             
         #return Response({"success": True}, status=status.HTTP_200_OK)
         #return Response({"success": False}, status=status.HTTP_400_BAD_REQUEST)
@@ -161,6 +163,7 @@ class BuildingDoorActionView(generics.GenericAPIView):
         return Response({"success": "Door action successful."}, status=status.HTTP_200_OK)
         
         
+# Fetches the previous actions performed in a particular building
 class BuildingDoorActionListView(generics.ListAPIView):
     serializer_class = BuildingDoorActionSerializer
     queryset = BuildingDoorAction.objects.all()
