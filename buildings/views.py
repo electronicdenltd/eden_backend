@@ -53,10 +53,8 @@ class BuildingDoorVerifyView(APIView):
         #data = request.data
         try:
             lock = BuildingDoors.objects.get(uid=uid)
-            response = lock.exists()
-            if response:
-                if not lock.is_assigned:
-                    return Response({"success": True})
+            if not lock.is_assigned:
+                return Response({"success": True})
             #return Response({"success": True, "door": lock}, status=status.HTTP_200_OK)
         except ObjectDoesNotExist:    
             return Response({"success": False, "message": "Door is assigned or doesn't exist."}, status=status.HTTP_400_BAD_REQUEST)     
