@@ -14,7 +14,7 @@ urlpatterns = [
     path('update-door/<int:id>/', BuildingDoorsRetrieveUpdateView.as_view(), name='update-door'),
     path('register-door/', BuildingDoorsRegisterView.as_view(), name='add-door'),
     path('delete-door/<int:id>/', BuildingDoorsDeleteView.as_view(), name='delete-door'),
-    path('assign-door/<int:id>/', BuildingDoorsAssignView.as_view(), name='assign-door'),
+    path('assign-door/', BuildingDoorsAssignView.as_view(), name='assign-door'),
     path('verify-door/<str:uid>/', BuildingDoorVerifyView.as_view(), name='verify-door'),
     
     path('list-actions/<int:building>/',BuildingDoorActionListView.as_view(), name='list-actions')

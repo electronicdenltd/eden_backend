@@ -85,7 +85,7 @@ class BuildingDoorsAssignView(generics.UpdateAPIView):
     queryset = BuildingDoors.objects.all()
     
     def get_object(self):
-        door = BuildingDoors.objects.get(id=self.request.data["uid"])
+        door = BuildingDoors.objects.get(uid=self.request.data["uid"])
         if door.check_pin(self.request.data['pin']):
             door.building = self.request.data["building"]
             door.door_name = self.request.data["door_name"]
@@ -117,7 +117,7 @@ class BuildingDoorsRetrieveUpdateView(generics.RetrieveUpdateAPIView):
 class BuildingDoorsDeleteView(generics.DestroyAPIView):
     serializer_class = BuildingDoorsSerializer
     queryset = BuildingDoors.objects.all()
-    lookup_field = "id"
+    lookup_field = "uid"
     
     
 class BuildingDoorActionView(generics.GenericAPIView):
