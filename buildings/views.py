@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from django.core.exceptions import ObjectDoesNotExist
+from control_logic.mqtt_publish import MqttService
 
 #import requests
 
@@ -128,22 +129,28 @@ class BuildingDoorActionView(generics.GenericAPIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         
-        door_id = serializer.validated_data['door_id']
+        door_id = serializer.validated_data['door_uid']
         pin = serializer.validated_data['pin']
         action = serializer.validated_data['action']
         
-        # door = get_object_or_404(BuildingDoors, id=door_id)
-        # if door.building.owner != request.user:
-        #     raise PermissionDenied("You are not the owner of this door")
+        door = get_object_or_404(BuildingDoors, id=door_id)
+        if door.building.owner != request.user:
+            raise PermissionDenied("You are not the owner of this door")
         
-        # if action not in ['lock', 'unlock']:
-        #     raise PermissionDenied("Invalid action")
+        if action not in ['lock', 'unlock']:
+            raise PermissionDenied("Invalid action")
+        if not door.check_pin(pin):
+            raise PermissionDenied("Invalid pin")
         
-        # if action == 'unlock':
-        #     success = door.unlock(pin)
-        # else:
-        #     door.lock()
-        #     success = True
+        if action == 'unlock':
+            success = door.unlock(pin)
+            mqtt = MqttService.publish("eden/door/commands","open")
+            return Response({"success": "Door unlocked successfully.", "mqtt": mqtt}, status=status.HTTP_200_OK)
+        elif action == 'lock':
+            door.lock()
+            mqtt = MqttService.publish("eden/door/commands","close")
+            success = True
+            return Response({"success": "Door locked successfully.", "mqtt": mqtt}, status=status.HTTP_200_OK)
         
         # if not success:
         #     return Response({"error": "Invalid pin"}, status=status.HTTP_403_FORBIDDEN)
@@ -160,7 +167,7 @@ class BuildingDoorActionView(generics.GenericAPIView):
         #     status=status.HTTP_200_OK
         # )
 
-        return Response({"success": "Door action successful."}, status=status.HTTP_200_OK)
+        return Response({"success": "Door action something went wrong"}, status=status.HTTP_200_OK)
         
         
 # Fetches the previous actions performed in a particular building

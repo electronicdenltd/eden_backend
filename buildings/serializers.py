@@ -32,7 +32,7 @@ class BuildingDoorUnlockSerializer(serializers.Serializer):
     action = serializers.CharField(max_length=10)
     
     class Meta:
-        fields = ['pin', 'door_id', 'action']
+        fields = ['pin', 'door_uid', 'action']
 
 
 class BuildingDoorActionSerializer(serializers.ModelSerializer):

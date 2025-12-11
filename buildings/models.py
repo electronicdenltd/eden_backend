@@ -50,22 +50,14 @@ class BuildingDoors(models.Model):
     
     
     def unlock(self, pin):
-        if self.has_pin:
-            if self.check_pin(pin):
-                self.locked = False
-                self.save()
-                return True
-            else:
-                return False
-        elif not self.has_pin:
-            self.locked = False
-            self.save()
-            return True
-            
-        
+        self.locked = False
+        self.save()
+        return True
+               
     def lock(self):
         self.locked = True
         self.save()
+        return True
         
 class BuildingDoorAction(models.Model):
     class ActionChoices(models.TextChoices):
