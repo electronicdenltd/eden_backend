@@ -8,13 +8,15 @@ class BuildingSerializer(serializers.ModelSerializer):
         fields = ['id', 'owner', 'name', 'address', 'description', 'locked']
         
 class BuildingDoorsSerializer(serializers.ModelSerializer):
+    #Take the building id from the request and use it to find the building object
+    building_id = serializers.IntegerField(write_only=True, required = True)
     pin = serializers.CharField(write_only=True, required = True)
     #has_pin = serializers.ReadOnlyField() #was initially added but removed as
     #it was a requirement to set pin
     locked = serializers.ReadOnlyField()
     class Meta:
         model = BuildingDoors
-        fields = ['uid', 'building', 'door_name', 'description', 'locked', 'pin']
+        fields = ['uid', 'building_id', 'door_name', 'description', 'locked', 'pin']
         
     def create(self, validated_data):
         pin = validated_data.pop('pin', None)

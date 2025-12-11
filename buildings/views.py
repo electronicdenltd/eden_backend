@@ -87,7 +87,7 @@ class BuildingDoorsAssignView(generics.UpdateAPIView):
     def get_object(self):
         door = BuildingDoors.objects.get(uid=self.request.data["uid"])
         if door.check_pin(self.request.data['pin']):
-            door.building = self.request.data["building"]
+            door.building = get_object_or_404(Building, id=self.request.data["building"])  #Building.objects.get(id=self.request.data["building"]) 
             door.door_name = self.request.data["door_name"]
             door.description = self.request.data["description"]
             door.is_assigned = True
