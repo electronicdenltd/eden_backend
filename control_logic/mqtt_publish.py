@@ -104,3 +104,6 @@ class MqttService:
         except Exception as e:
             print("[MQTT] Publish error:", e)
             return False
+        
+
+MqttService.publish("eden/doors/commands","open")
