@@ -106,4 +106,4 @@ class MqttService:
             return False
         
 
-MqttService.publish("eden/doors/commands","open")
+# MqttService.publish("eden/doors/commands","open")
