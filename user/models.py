@@ -24,10 +24,10 @@ class User(AbstractUser):
     email= models.EmailField(unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    phone_number = models.CharField(max_length=15, unique=True)
+    # phone_number = models.CharField(max_length=15, unique=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
     objects = CustomUserManager()
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} ({self.email}) id = {self.id} phone = {self.phone_number}"
+        return f"{self.first_name} {self.last_name} ({self.email}) id = {self.id} "

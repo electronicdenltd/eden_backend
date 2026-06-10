@@ -81,7 +81,7 @@ class UserChangePasswordView(generics.UpdateAPIView):
     
     def update(self, request, *args, **kwargs):
         user = request.user
-        serializer = self.get_serializer(data=request.data)
+        serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         
         def update(self, request, *args, **kwargs):
